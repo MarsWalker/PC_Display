@@ -1,1 +1,151 @@
-teste
+{
+  "format": "web-dashboard",
+  "version": 1,
+  "device": "surface",
+  "title": "Casa",
+  "timezone": "Europe/Lisbon",
+  "theme": {
+    "background": "#000000",
+    "foreground": "#EEEEEE",
+    "muted": "#A0AAA0",
+    "accent": "#A1B88B",
+    "font_family": "Arial, Helvetica, sans-serif"
+  },
+  "layout": {
+    "max_width_px": 1200,
+    "padding_px": 24,
+    "gap_px": 24,
+    "stack_below_px": 760
+  },
+  "data_sources": [
+    {
+      "id": "house_power",
+      "type": "ha_state",
+      "entity": "sensor.energia_pj2101a_local_power",
+      "unit": "W",
+      "refresh_ms": 2000
+    },
+    {
+      "id": "doors",
+      "type": "ha_states",
+      "refresh_ms": 5000,
+      "entities": [
+        {
+          "id": "binary_sensor.porta_entrada",
+          "label": "Entrada"
+        },
+        {
+          "id": "binary_sensor.porta_cozinha",
+          "label": "Cozinha"
+        },
+        {
+          "id": "binary_sensor.porta_alcapao",
+          "label": "Alçapão"
+        },
+        {
+          "id": "binary_sensor.porta_centro",
+          "label": "Centro"
+        },
+        {
+          "id": "binary_sensor.porta_cozinha_cave",
+          "label": "Cozinha cave"
+        },
+        {
+          "id": "binary_sensor.porta_oficina",
+          "label": "Oficina"
+        }
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "id": "home",
+      "title": "Casa",
+      "rows": [
+        {
+          "cells": [
+            {
+              "width_percent": 100,
+              "objects": [
+                {
+                  "id": "clock",
+                  "type": "clock",
+                  "format": "HH:mm:ss",
+                  "font_size_px": 80,
+                  "seconds_font_size_px": 24,
+                  "show_date": true,
+                  "date_font_size_px": 18,
+                  "show_greeting": false,
+                  "align": "center",
+                  "padding_y_px": 12
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "width_percent": 65,
+              "objects": [
+                {
+                  "id": "house_power_graph",
+                  "type": "power_graph",
+                  "source": "house_power",
+                  "title": "Casa · saldo da rede",
+                  "height_px": 300,
+                  "window_seconds": 300,
+                  "max_points": 151,
+                  "plot": "absolute_magnitude",
+                  "line_width_px": 2,
+                  "background": "#080C08",
+                  "positive_color": "#FFFF00",
+                  "negative_color": "#00FF00",
+                  "autoscale": true,
+                  "break_on_missing": true,
+                  "show_value": true,
+                  "value_font_size_px": 42,
+                  "value_decimals": 0,
+                  "positive_label": "A receber da rede",
+                  "negative_label": "A devolver à rede",
+                  "zero_label": "Saldo nulo",
+                  "unavailable_label": "Sem dados"
+                }
+              ]
+            },
+            {
+              "width_percent": 35,
+              "objects": [
+                {
+                  "id": "doors_status",
+                  "type": "doors",
+                  "source": "doors",
+                  "title": "Portas",
+                  "label_font_size_px": 18,
+                  "state_font_size_px": 16,
+                  "row_height_px": 44,
+                  "open_states": [
+                    "on",
+                    "open",
+                    "detected"
+                  ],
+                  "closed_states": [
+                    "off",
+                    "closed",
+                    "close"
+                  ],
+                  "open_label": "Aberta",
+                  "closed_label": "Fechada",
+                  "unavailable_label": "Indisponível",
+                  "open_color": "#FF8C75",
+                  "closed_color": "#74D88B",
+                  "unavailable_color": "#A0A0A0"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
